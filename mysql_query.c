@@ -423,6 +423,12 @@ mysql_bind_result(Oid pgtyp, int pgtypmod, MYSQL_FIELD *field,
 			mbind->buffer = VARDATA(column->value);
 			mbind->buffer_length = MAX_BLOB_WIDTH;
 			break;
+		case TEXTOID:
+			mbind->buffer_type = MYSQL_TYPE_VAR_STRING;
+			column->value = (Datum) palloc0(MAX_BLOB_WIDTH);
+			mbind->buffer = (char *) column->value;
+			mbind->buffer_length = MAX_BLOB_WIDTH;
+			break;
 		default:
 			mbind->buffer_type = MYSQL_TYPE_VAR_STRING;
 			column->value = (Datum) palloc0(MAXDATALEN);
