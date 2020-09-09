@@ -356,6 +356,11 @@ SELECT t1.c1, (SELECT c2 FROM f_test_tbl1 WHERE c1 =(SELECT 500))
     SELECT c1, c2 FROM f_test_tbl2 WHERE c1 > ANY (SELECT 20)) t2
   ORDER BY 1, 2;
 
+-- Issue #202 - correct handling of mixed-case table names.
+IMPORT FOREIGN SCHEMA mysql_fdw_regress LIMIT TO ("mixedCaseTable") FROM SERVER mysql_svr INTO public;
+SELECT * FROM "mixedCaseTable" ORDER BY id;
+DROP FOREIGN TABLE "mixedCaseTable";
+
 -- Cleanup
 DROP TABLE l_test_tbl1;
 DROP TABLE l_test_tbl2;
